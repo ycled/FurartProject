@@ -7,3 +7,4 @@ def index(request):
 
 def signup(request):
     return render(request, 'furart/signup.html');
+
