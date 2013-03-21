@@ -1,0 +1,28 @@
+<html>
+<head>
+<title>Post New Activity</title>
+</head>
+
+<body>
+	<h1>Post New Activity</h1>
+
+	<table>
+		{% for activity in activitys %}
+		<tr>
+			<td>AAA{{ activity.title }}</td>
+		</tr>
+		{% endfor %}
+	</table>
+
+	<h2>Post new Activity</h2>
+	<form action="." method="POST">
+		{% csrf_token %}
+		<table>{{ form.as_table }}
+		</table>
+		<p>
+			<input type="submit" value="Submit">
+		</p>
+	</form>
+
+</body>
+</html>
