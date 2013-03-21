@@ -1,0 +1,13 @@
+<p>
+	You searched for: <strong>{{ query }}</strong>
+</p>
+
+{% if activitys %}
+<p>Found {{ activitys|length }} activity{{ activitys|pluralize }}.</p>
+<ul>
+	{% for activity in activitys %}
+	<li>{{ activity.title }} {{ activity.location }}</li> {% endfor %}
+</ul>
+{% else %}
+<p>No activitys matched your search criteria.</p>
+{% endif %}
