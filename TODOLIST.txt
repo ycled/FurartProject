@@ -1,0 +1,21 @@
+TODOLIST:
+
+
+##	Activity:
+
+1. Form:	
+	time:calender, select of time, start and end time
+	location:
+	poster;
+	
+2. html:
+	error display on the right of the form rather than on the top
+	import header and footer in seperate file
+
+
+
+
+--------
+
+
+#	User:

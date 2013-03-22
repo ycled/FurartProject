@@ -15,7 +15,6 @@ class Message(models.Model):
     time = models.DateTimeField(auto_now_add=True)
     ip = models.CharField(max_length=20)
     
-
 class Activity(models.Model):
     title = models.CharField(max_length=200)
     activitytype = models.CharField(max_length=30)
