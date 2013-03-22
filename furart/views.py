@@ -1,5 +1,3 @@
-# Create your views here.
-
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, render_to_response
@@ -10,7 +8,19 @@ from furart.models import Activity
 from furart.models import User
 
 
-def index(request):
+
+def index(request, username):
+    return render_to_response('furart/index.html',
+                              { 'username' : username },
+                              context_instance=RequestContext(request))
+
+def signin(request):
+    username = request.POST.get["username"]
+    return render_to_response('furart/index.html',
+                              { 'username' : username },
+                              context_instance=RequestContext(request))
+
+def signup(request):
     if request.method == 'POST': 
         form = UserForm(request.POST)
         if form.is_valid():
@@ -23,19 +33,18 @@ def index(request):
                         email = email)
             user.save()
             return render_to_response('furart/index.html',
-                            {'form': form, "username": username},
-                               context_instance=RequestContext(request))
-    else: 
-        form = UserForm()
-    return render_to_response('furart/index.html',
-                            {'form': form},
-                               context_instance=RequestContext(request))
+                                      { 'form': form, "username": username },
+                                      context_instance=RequestContext(request))
+        else:
+            form = UserForm()
+            return render_to_response('furart/index.html',
+                                      { 'form' : form },
+                                      context_instance=RequestContext(request))
+    else: # if method is "GET"
+        return render_to_response('furart/index.html',
+                                  context_instance=RequestContext(request))
+
     
-
-
-def signup(request):
-    return render(request, 'furart/signup.html');
-
 def activity(request):
     return render(request, 'furart/activity.html');
 
@@ -47,7 +56,7 @@ def activity(request):
 # post a new activity    
 def activity_post(request): 
     if request.method == 'POST': 
-        form = ActivityForm(request.POST) 
+        form = ActivityForm(request.POST, request.FILES) 
         if form.is_valid(): 
             title = form.cleaned_data['title'] 
             activitytype = form.cleaned_data['activitytype'] 
