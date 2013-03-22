@@ -4,9 +4,7 @@ from furart import views
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
-    url(r'^index.html', views.index, name='index'),
-    url(r'^signup.html', views.signup, name='signup')
-    url(r'signup.html', views.signup, name='signup'),
+    url(r'^index', views.index, name='index'),
     
     url(r'^activity/$', views.activity),
     url(r'^message/$', views.message),

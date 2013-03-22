@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <title>Bootstrap, from Twitter</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -70,23 +71,17 @@
       
       <div class="modal-body">
 	<div class="container">
-	  <form class="form-signin">
+	  <form id="form-signup" action="signup">
 	    <input type="text" class="input-big" placeholder="User name"> </br>
             <input type="text" class="input-big" placeholder="Email address"> </br>
             <input type="password" class="input-big" placeholder="Password"> </br>
             <label class="checkbox">
               <input type="checkbox" value="remember-me"> Remember me
             </label>
-            <button class="btn btn-large btn-primary" type="submit">Sign in</button>
+	    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+	    <button id="btn-signup" type="submit" class="btn-primary">Sign up</button>
 	  </form>
 	</div>
-      </div> <!-- end of "modal-body" -->
-      
-      <div class="modal-footer">
-	<form method="POST" action="/furart/html">
-	  <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-	  <button type="submit" class="btn">Sign up</button>
-	</form>
       </div>
       
     </div>

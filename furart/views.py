@@ -7,10 +7,32 @@ from django.template.context import RequestContext
 from furart.forms import MessageForm, ActivityForm
 from furart.models import Message, Activity
 
+
 def index(request):
-    return render(request, 'furart/index.html')
+    if request.method == "GET":           # no user name provided
+        return render(request, 'furart/index.html')
+    else:
+        form = UserForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            email = form.cleaned_data['email']
+            
+            user = User(username = username,
+                        password = password,
+                        email = email)
+            user.save()
+            return HttpResponseRedirect('/furart/activity_post_success/')
+
+    return render_to_response('furart/index.html',
+                              {'username': username},
+                              context_instance=RequestContext(request))
+
 
 def signup(request):
+    return render(request, 'furart/signup.html');
+
+def signin(request):
     return render(request, 'furart/signup.html');
 
 def activity(request):
@@ -43,8 +65,8 @@ def activity_post(request):
     activitys = Activity.objects.all().order_by('-time') 
     
     return render_to_response('furart/activity_post.html', 
-                {'form': form, 'activitys': activitys},context_instance=RequestContext(request))
-    
+                              {'form': form, 'activitys': activitys},
+                              context_instance=RequestContext(request))
     
 
 
@@ -81,7 +103,7 @@ def activity_search(request):
         q = request.GET['q']
         activitys = Activity.objects.filter(title__icontains=q)
         return render_to_response('furart/activity_search_result.html',
-            {'activitys': activitys, 'query': q})
+                                  {'activitys': activitys, 'query': q})
     else:
         return render_to_response('furart/activity_search.html', {'error': True})
 
