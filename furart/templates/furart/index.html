@@ -32,6 +32,7 @@
     <!-- <link rel="shortcut icon" href="../assets/ico/favicon.png"> -->
   </head>
 
+
   <body>
 
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -61,11 +62,16 @@
                 </ul>
               </li>
             </ul>
-            <form class="navbar-form pull-right">
+	      {% if username %}
+	        <a> <strong>{{ username }} </strong></a>
+	      {% else %}
+		<form class="navbar-form pull-right">
               <input class="span2" type="text" placeholder="Email">
               <input class="span2" type="password" placeholder="Password">
               <button type="submit" class="btn" >Sign in</button>
-	      <a data-toggle="modal" href="#myModal" class="btn">Sign up</a>
+
+	        <a data-toggle="modal" href="#myModal" class="btn">Sign up</a>
+	      {% endif %}
             </form>
           </div><!--/.nav-collapse -->
         </div>
@@ -80,10 +86,11 @@
       </div>
       <div class="modal-body">
 	<div class="container">
-	  <form id="form-signup" action="signup">
-	    <input type="text" class="input-big" placeholder="User name"> </br>
-            <input type="text" class="input-big" placeholder="Email address"> </br>
-            <input type="password" class="input-big" placeholder="Password"> </br>
+	  <form method="POST" id="form-signup" action="index">
+	    {% csrf_token %}
+	    <input type="text" class="input-big" placeholder="User name" name="username"> </br>
+            <input type="text" class="input-big" placeholder="Email address" name="email"> </br>
+            <input type="password" class="input-big" placeholder="Password" name="password"> </br>
             <label class="checkbox">
               <input type="checkbox" value="remember-me"> Remember me
             </label>

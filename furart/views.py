@@ -5,13 +5,13 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, render_to_response
 from django.template.context import RequestContext
 from furart.forms import ActivityForm
+from furart.forms import UserForm
 from furart.models import Activity
+from furart.models import User
 
 
 def index(request):
-    if request.method == "GET":           # no user name provided
-        return render(request, 'furart/index.html')
-    else:
+    if request.method == 'POST': 
         form = UserForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data['username']
@@ -22,11 +22,15 @@ def index(request):
                         password = password,
                         email = email)
             user.save()
-            return HttpResponseRedirect('/furart/activity_post_success/')
-
+            return render_to_response('furart/index.html',
+                            {'form': form, "username": username},
+                               context_instance=RequestContext(request))
+    else: 
+        form = UserForm()
     return render_to_response('furart/index.html',
-                              {'username': username},
-                              context_instance=RequestContext(request))
+                            {'form': form},
+                               context_instance=RequestContext(request))
+    
 
 
 def signup(request):
