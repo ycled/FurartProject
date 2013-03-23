@@ -4,6 +4,7 @@ from django import forms
 ACTIVIRY_TYPE_CHOICES =  (('A', 'a'),('B', 'b'))
 
 
+
 #post new activity 
 class ActivityForm(forms.Form):
     activitytype = forms.ChoiceField(widget=forms.Select, choices = ACTIVIRY_TYPE_CHOICES,label='Type') 
@@ -19,3 +20,9 @@ class ActivityForm(forms.Form):
 # # search activity by type
 # class ActivitySearchForm(forms.Form):
 #     activitytype = forms.ChoiceField(widget=forms.Select, choices = ACTIVIRY_TYPE_CHOICES,label='Type') 
+
+
+
+class UploadFileForm(forms.Form):
+    title = forms.CharField(max_length=50)
+    file  = forms.FileField()

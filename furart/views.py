@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, render_to_response
 from django.template.context import RequestContext
-from furart.forms import ActivityForm
+from furart.forms import ActivityForm, UploadFileForm
 from furart.models import Activity
 
 def index(request):
@@ -16,6 +16,54 @@ def signup(request):
 
 def activity(request):
     return render(request, 'furart/activity.html');
+
+
+
+
+
+
+
+
+
+
+#  create new event
+def event_create(request): 
+    errors = []
+    if request.method == 'POST': 
+        # error check
+        if not request.POST.get('type', ''):
+            errors.append('type')
+        if not request.POST.get('title', ''):
+            errors.append('title')
+            
+        if not errors:
+            m = Activity(title = request.POST['title'],
+                        activitytype = request.POST['activitytype'],
+                        organizor= request.POST['organizor'],
+                        location = request.POST['location'],
+                        detail = request.POST['detail'],
+                        ) 
+            m.save() 
+            #return HttpResponseRedirect('furart/message/') 
+            return HttpResponseRedirect('/furart/event_create_success/') 
+        else:
+            return render_to_response('/furart/event_create/',{'errors': errors})
+        
+    activitys = Activity.objects.all().order_by('-time')   
+    return render_to_response('furart/event_create.html', 
+                {'activitys': activitys},context_instance=RequestContext(request))
+    
+    
+
+
+# post new acitivity successfully
+def event_create_success(request):
+    return render(request, 'furart/activity_post_success.html');
+
+
+
+
+
 
 
 
@@ -127,3 +175,31 @@ def event_search(request):
 #     else:
 #         form = ActivitySearchForm() 
 #         return render_to_response('furart/event_search.html', {'form': form, 'error': True})
+
+
+
+
+
+def upload_image(request):
+    '''Simple view method for uploading an image
+ 
+    '''
+    if request.method == 'POST':
+        form = ImageForm(request.POST, request.FILES)
+        if form.is_valid() and form.is_multipart():
+            save_file(request.FILES['image'])
+            return HttpResponse('Thanks for uploading the image')
+        else:
+            return HttpResponse('Invalid image')
+    else:
+        form = ImageForm()
+    return render_to_response('sample/upload_image_form.html', {'form': form})
+ 
+def save_file(file, path=''):
+    ''' Little helper to save a file
+    '''
+    filename = file._get_name()
+    fd = open('%s/%s' % (MEDIA_ROOT, str(path) + str(filename)), 'wb')
+    for chunk in file.chunks():
+        fd.write(chunk)
+    fd.close()
