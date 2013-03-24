@@ -36,7 +36,8 @@ def activity_edit(request, activity_id):
             activity.save()
             return HttpResponseRedirect('/furart/activity_edit_success/') 
     else: 
-        form = ActivityForm()
+        form = ActivityForm(initial={'title': activity.title,
+                                     'time': activity.time,})
         
                    
     return render_to_response('furart/edit.html',
