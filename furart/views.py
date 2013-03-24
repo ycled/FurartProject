@@ -10,12 +10,53 @@ from furart.models import Activity
 from furart.models import User
 
 
+
+
+# edit a exited activity
+def activity_edit(request, activity_id): 
+    print activity_id 
+    try:
+        activity = Activity.objects.get(pk=activity_id)        
+    except Activity.DoesNotExist:
+        activity = None
+        print "activity not found"
+    
+    if request.method == 'POST': 
+        #form = ActivityForm(request.POST, request.FILES, activity=activity)              
+        form = ActivityForm(request.POST, request.FILES)
+        if form.is_valid(): 
+            title = form.cleaned_data['title'] 
+            activitytype = form.cleaned_data['activitytype'] 
+            organizor = form.cleaned_data['organizor'] 
+            location = form.cleaned_data['location'] 
+            detail = form.cleaned_data['detail']
+
+            activity.title = title
+
+            activity.save()
+            return HttpResponseRedirect('/furart/activity_edit_success/') 
+    else: 
+        form = ActivityForm()
+        
+                   
+    return render_to_response('furart/edit.html',
+                              {'form': form, 'activity': activity},
+                              context_instance=RequestContext(request))
+
+
+# edit activity successfully
+def activity_edit_success(request):
+    return render(request, 'furart/activity_edit_success.html');
+
+
+
+# display activity detail
 def activity_detail(request, activity_id):
     try:
         activity = Activity.objects.get(pk=activity_id)
     except Activity.DoesNotExist:
         raise Http404
-    return render(request, 'furart/detail.html', {'activity': activity})
+    return render(request, 'furart/activity_detail.html', {'activity': activity})
 
 
 
@@ -30,22 +71,22 @@ def activity_post(request):
             location = form.cleaned_data['location'] 
             detail = form.cleaned_data['detail']
 
-            m = Activity(title = title,
-                        activitytype = activitytype,
-                        organizor= organizor,
-                        location = location,
-                        detail = detail,
-                        #picture = null
+            m = Activity(title=title,
+                        activitytype=activitytype,
+                        organizor=organizor,
+                        location=location,
+                        detail=detail,
+                        # picture = null
                         ) 
             m.save() 
-            #return HttpResponseRedirect('furart/message/') 
+            # return HttpResponseRedirect('furart/message/') 
             return HttpResponseRedirect('/furart/activity_post_success/') 
     else: 
         form = ActivityForm()
         
     activitys = Activity.objects.all().order_by('-time') 
             
-    return render_to_response('furart/activity_post.html', 
+    return render_to_response('furart/activity_post.html',
                               {'form': form, 'activitys': activitys},
                               context_instance=RequestContext(request))
     
@@ -111,7 +152,7 @@ def signin(request):
 
 
 def signup(request):
-    if request.method == 'POST':          # signup a new user
+    if request.method == 'POST':  # signup a new user
         form = UserForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data['username']
@@ -127,7 +168,7 @@ def signup(request):
             # return render_to_response('furart/index.html',
             #                           {'form': form, "username": username},
             #                           context_instance=RequestContext(request))
-    else: # if the request is GET, output a new form
+    else:  # if the request is GET, output a new form
         form = UserForm()
         
     return render_to_response('furart/signup.html',

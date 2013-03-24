@@ -19,6 +19,9 @@ urlpatterns = patterns('',
     url(r'^event_search/$', views.event_search),  
     
     # activity detail
-    # ex: /polls/5/
-    url(r'^activity/(?P<activity_id>\d+)/$', views.activity_detail, name='detail'),
+    # ex: /activity/1/
+    url(r'^activity/(?P<activity_id>\d+)/$', views.activity_detail, name='detail'),   
+    # edit activity
+    url(r'^activity/(?P<activity_id>\d+)/edit/$', views.activity_edit, name='edit'),
+    url(r'^activity_edit_success/$', views.activity_edit_success),
 )
