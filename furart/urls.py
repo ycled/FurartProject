@@ -4,11 +4,8 @@ from furart import views
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
-    
     # user
     url(r'signup.html', views.signup, name='signup'),
-    
-    
     
     # activity
     url(r'^activity/$', views.activity),

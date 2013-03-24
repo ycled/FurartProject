@@ -1,17 +1,16 @@
-# Create your views here.
-
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, render_to_response
 from django.template.context import RequestContext
-from furart.forms import ActivityForm, UploadFileForm
+from furart.forms import ActivityForm
 from furart.models import Activity
+from furart.models import User
 
-  
+
 # post a new activity    
 def activity_post(request): 
     if request.method == 'POST': 
-        form = ActivityForm(request.POST) 
+        form = ActivityForm(request.POST, request.FILES) 
         if form.is_valid(): 
             title = form.cleaned_data['title'] 
             activitytype = form.cleaned_data['activitytype'] 
@@ -35,8 +34,8 @@ def activity_post(request):
     activitys = Activity.objects.all().order_by('-time') 
     
     return render_to_response('furart/activity_post.html', 
-                {'form': form, 'activitys': activitys},context_instance=RequestContext(request))
-    
+                              {'form': form, 'activitys': activitys},
+                              context_instance=RequestContext(request))
     
 
 
@@ -54,7 +53,7 @@ def activity_search(request):
         q = request.GET['q']
         activitys = Activity.objects.filter(title__icontains=q)
         return render_to_response('furart/activity_search_result.html',
-            {'activitys': activitys, 'query': q})
+                                  {'activitys': activitys, 'query': q})
     else:
         return render_to_response('furart/activity_search.html', {'error': True})
      
@@ -69,8 +68,6 @@ def activity_search_result(request):
  
 
 
-
-
 # search by select form
 # search event by type
 def event_search(request):
@@ -81,7 +78,6 @@ def event_search(request):
             {'activitys': activitys, 'query': q})
     else:
         return render_to_response('furart/event_search.html', {'error': True})
-
 
 
 
@@ -98,4 +94,3 @@ def index(request):
 
 def signup(request):
     return render(request, 'furart/signup.html');
-
