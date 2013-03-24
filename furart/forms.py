@@ -15,7 +15,7 @@ class MessageForm(forms.Form):
     content = forms.CharField(required=True)
     
 
-
+ACTIVIRY_TYPE_CHOICES =  (('A', 'a'),('B', 'b'))
 #post new activity 
 class ActivityForm(forms.Form):
     activitytype = forms.ChoiceField(widget=forms.Select, choices = ACTIVIRY_TYPE_CHOICES,label='Type') 
