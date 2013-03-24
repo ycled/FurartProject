@@ -28,7 +28,10 @@
           </li>
         </ul>
 	{% if username %}
-	<a class="brand" style="float: right">{{ username }}</a>
+	<div style="float: right">
+	  <a class="brand">{{ username }}</a>
+	  <a href="{% url 'logout' %}" class="btn">Log out</a> <!-- enter signup page -->
+	</div>
 	{% else %}
 	<form method="POST" class="navbar-form pull-right">
 	  {% csrf_token %}

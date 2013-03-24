@@ -9,6 +9,7 @@ urlpatterns = patterns('',
     # user management
     url(r'^signin', views.signin, name='signin'),
     url(r'^signup', views.signup, name='signup'),
+    url(r'^logout', views.logout, name='logout'),    
     
     # activity
     url(r'^activity/$', views.activity),
