@@ -3,9 +3,12 @@ from furart import views
 
 
 urlpatterns = patterns('',
+    # root
     url(r'^$', views.index, name='index'),
-    # user
-    url(r'signup.html', views.signup, name='signup'),
+    
+    # user management
+    url(r'^signin', views.signin, name='signin'),
+    url(r'^signup', views.signup, name='signup'),
     
     # activity
     url(r'^activity/$', views.activity),
@@ -14,5 +17,4 @@ urlpatterns = patterns('',
     url(r'^activity_search/$', views.activity_search),
     url(r'^activity_search_result/$', views.activity_search_result),
     url(r'^event_search/$', views.event_search),  
-        
 )

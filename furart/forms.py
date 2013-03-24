@@ -3,8 +3,10 @@ from django import forms
 
 class UserForm(forms.Form):
     username = forms.CharField(required=True)
+    email = forms.EmailField(required=True)    
     password = forms.CharField(required=True)
-    email = forms.EmailField(required=True)
+    confirm_password = forms.CharField(required=True)
+
     
 
 class MessageForm(forms.Form): 

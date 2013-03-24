@@ -2,12 +2,15 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, render_to_response
 from django.template.context import RequestContext
+
+from furart.forms import UserForm
 from furart.forms import ActivityForm
+
 from furart.models import Activity
 from furart.models import User
 
 
-# post a new activity    
+# post a new activity
 def activity_post(request): 
     if request.method == 'POST': 
         form = ActivityForm(request.POST, request.FILES) 
@@ -17,7 +20,6 @@ def activity_post(request):
             organizor = form.cleaned_data['organizor'] 
             location = form.cleaned_data['location'] 
             detail = form.cleaned_data['detail']
-
 
             m = Activity(title = title,
                         activitytype = activitytype,
@@ -32,7 +34,7 @@ def activity_post(request):
         form = ActivityForm()
         
     activitys = Activity.objects.all().order_by('-time') 
-    
+            
     return render_to_response('furart/activity_post.html', 
                               {'form': form, 'activitys': activitys},
                               context_instance=RequestContext(request))
@@ -86,11 +88,38 @@ def activity(request):
 
 
 
-#----------
-#    user management
-#-----------
+#-------------------------------------------------------------
+# user management
+#-------------------------------------------------------------
 def index(request):
     return render(request, 'furart/index.html')
 
-def signup(request):
+
+def signin(request):
+    
     return render(request, 'furart/signup.html');
+
+
+def signup(request):
+    if request.method == 'POST':          # signup a new user
+        form = UserForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            email = form.cleaned_data['email']
+
+            username.errors = "already exit"
+            
+            # user = User(username = username,
+            #             password = password,
+            #             email = email)
+            # user.save()
+            # return render_to_response('furart/index.html',
+            #                           {'form': form, "username": username},
+            #                           context_instance=RequestContext(request))
+    else: # if the request is GET, output a new form
+        form = UserForm()
+        
+    return render_to_response('furart/signup.html',
+                              {'form': form},
+                              context_instance=RequestContext(request))    
