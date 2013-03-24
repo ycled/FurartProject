@@ -10,7 +10,16 @@ from furart.models import Activity
 from furart.models import User
 
 
-# post a new activity
+def activity_detail(request, activity_id):
+    try:
+        activity = Activity.objects.get(pk=activity_id)
+    except Activity.DoesNotExist:
+        raise Http404
+    return render(request, 'furart/detail.html', {'activity': activity})
+
+
+
+# post a new activity    
 def activity_post(request): 
     if request.method == 'POST': 
         form = ActivityForm(request.POST, request.FILES) 
@@ -26,6 +35,7 @@ def activity_post(request):
                         organizor= organizor,
                         location = location,
                         detail = detail,
+                        #picture = null
                         ) 
             m.save() 
             #return HttpResponseRedirect('furart/message/') 

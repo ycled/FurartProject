@@ -25,5 +25,5 @@ class ActivityForm(forms.Form):
     time = forms.CharField(required=True) 
     organizor = forms.CharField(required=True) 
     location = forms.CharField(required=True)
-    picture = forms.FileField()
+    #picture = forms.FileField()
     detail = forms.CharField(required=True) 
