@@ -7,6 +7,9 @@ class UserForm(forms.Form):
     password = forms.CharField(required=True)
     confirm_password = forms.CharField(required=True)
 
+    def cleaned_username:
+        try
+
     
 
 class MessageForm(forms.Form): 
