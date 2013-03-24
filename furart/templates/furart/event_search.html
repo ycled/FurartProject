@@ -1,10 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-
 {% include "furart/index_header.html" %}
-
 <body>
-
 	{% include "furart/index_navbar.html" %}
 
 
@@ -31,7 +28,7 @@
 				}}.</p>
 			<ul>
 				{% for activity in activitys %}
-				<li>{{ activity.title }} {{ activity.location }}</li> {% endfor %}
+				<li><a href="/furart/activity/{{ activity.id }}/">{{ activity.title }} {{ activity.location }}</a></li> {% endfor %}
 			</ul>
 			{% else %}
 			<p>No activitys matched your search criteria.</p>
