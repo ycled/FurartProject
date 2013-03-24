@@ -13,16 +13,3 @@ class ActivityForm(forms.Form):
     organizor = forms.CharField(required=True) 
     location = forms.CharField(required=True) 
     detail = forms.CharField(required=True) 
-    #poster, current post user, not equal to organizor
-    #time: start- end, choice widget
-    
-    
-# # search activity by type
-# class ActivitySearchForm(forms.Form):
-#     activitytype = forms.ChoiceField(widget=forms.Select, choices = ACTIVIRY_TYPE_CHOICES,label='Type') 
-
-
-
-class UploadFileForm(forms.Form):
-    title = forms.CharField(max_length=50)
-    file  = forms.FileField()

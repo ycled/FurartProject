@@ -6,7 +6,7 @@
 <p>Found {{ activitys|length }} activity{{ activitys|pluralize }}.</p>
 <ul>
 	{% for activity in activitys %}
-	<li>{{ activity.title }} {{ activity.location }}</li> {% endfor %}
+	<a href="{% url activity_detail %}"><li>{{ activity.title }} {{ activity.location }}</li></a>{% endfor %}
 </ul>
 {% else %}
 <p>No activitys matched your search criteria.</p>
