@@ -1,5 +1,7 @@
 from django import forms
 
+from furart.models import User
+
 
 class UserForm(forms.Form):
     username = forms.CharField(required=True)
@@ -7,10 +9,14 @@ class UserForm(forms.Form):
     password = forms.CharField(required=True)
     confirm_password = forms.CharField(required=True)
 
-    def cleaned_username:
-        try
-
-    
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return username
+        raise forms.ValidationError(u'%s already exists' % username )
+        
 
 class MessageForm(forms.Form): 
     name = forms.CharField(required=True) 

@@ -12,7 +12,6 @@ from furart.models import User
 
 
 
-
 # edit a exited activity
 def activity_edit(request, activity_id): 
     print activity_id 
