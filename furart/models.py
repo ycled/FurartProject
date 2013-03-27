@@ -15,4 +15,5 @@ class Activity(models.Model):
     location = models.CharField(max_length=200)
     poster = models.FileField(upload_to='documents')
     detail = models.CharField(max_length=500)
-    time = models.DateTimeField(auto_now_add=True)
+    #time = models.DateTimeField(auto_now_add=True)
+    time = models.DateField()
