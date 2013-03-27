@@ -27,12 +27,14 @@ class MessageForm(forms.Form):
     
 
 ACTIVIRY_TYPE_CHOICES =  (('A', 'a'),('B', 'b'))
-#post new activity 
+# post new activity 
 class ActivityForm(forms.Form):
-    activitytype = forms.ChoiceField(widget=forms.Select, choices = ACTIVIRY_TYPE_CHOICES,label='Type') 
-    title = forms.CharField(required=True)     
-    time = forms.CharField(required=True) 
-    organizor = forms.CharField(required=True) 
+    activitytype = forms.ChoiceField(widget=forms.Select,
+                                     choices = ACTIVIRY_TYPE_CHOICES,label='Type')
+    title = forms.CharField(required=True)
+    time = forms.CharField(required=True)
+    organizor = forms.CharField(required=True)
     location = forms.CharField(required=True)
-    #picture = forms.FileField()
+    poster = forms.FileField(label="Select a poster for you activity",
+                             help_text="max size 1M")
     detail = forms.CharField(required=True) 

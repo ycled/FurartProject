@@ -22,7 +22,7 @@ def activity_edit(request, activity_id):
         print "activity not found"
     
     if request.method == 'POST': 
-        #form = ActivityForm(request.POST, request.FILES, activity=activity)              
+        #form = ActivityForm(request.POST, request.FILES, activity=activity)     
         form = ActivityForm(request.POST, request.FILES)
         if form.is_valid(): 
             title = form.cleaned_data['title'] 
@@ -66,19 +66,21 @@ def activity_post(request):
     if request.method == 'POST':
         form = ActivityForm(request.POST, request.FILES)
         if form.is_valid():
+            uploader = request.session.get('username')
             title = form.cleaned_data['title']
             activitytype = form.cleaned_data['activitytype']
             organizor = form.cleaned_data['organizor']
             location = form.cleaned_data['location']
             detail = form.cleaned_data['detail']
 
-            m = Activity(title=title,
-                        activitytype=activitytype,
-                        organizor=organizor,
-                        location=location,
-                        detail=detail,
-                        # picture = null
-                        ) 
+            m = Activity(uploader=uploader,
+                         title=title,
+                         activitytype=activitytype,
+                         organizor=organizor,
+                         location=location,
+                         detail=detail,
+                         poster=request.FILES['poster']
+                         )
             m.save() 
             # return HttpResponseRedirect('furart/message/') 
             return HttpResponseRedirect('/furart/activity_post_success/') 

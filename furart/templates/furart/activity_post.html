@@ -1,42 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-{% include "furart/index_header.html" %}
-<body>
-{% include "furart/index_navbar.html" %}
+  {% include "furart/index_header.html" %}
+  <body>
+    {% include "furart/index_navbar.html" %}
 
 
 
-	<div class="container">
-		<!-- TODO:	error msg on the ighr of the form -->
-		
-		
-		<div class="row">
-			<div class="span4">
-				<h2>Post New Activity</h2>
-				<table>
-					{% for activity in activitys %}
-					<tr>
-						<td>{{ activity.title }}</td>
-					</tr>
-					{% endfor %}
-				</table>
-                
-                
-				<h2>Post new Activity</h2>
-				<form action="." method="POST">
-					{% csrf_token %}
-					<table>{{ form.as_table }}
-					</table>
-					<p>
-						<input type="submit" value="Submit" class="btn btn-info">
-					</p>
-				</form>
-			</div>
-		</div>
+    <div class="container">
+      <!-- TODO:	error msg on the ighr of the form -->
+      
+      
+      <div class="row">
+	<div class="span4">
+	  <h2>Post New Activity</h2>
+	  <table>
+	    {% for activity in activitys %}
+	    <tr>
+	      <td>{{ activity.title }}</td>
+	    </tr>
+	    {% endfor %}
+	  </table>
+          
+          
+	  <h2>Post new Activity</h2>
+	  <form action="." method="POST" enctype="multipart/form-data">
+	    {% csrf_token %}
+	    <table>{{ form.as_table }}
+	    </table>
+	    <p>
+	      <input type="submit" value="Submit" class="btn btn-info">
+	    </p>
+	  </form>
+	</div>
+      </div>
 
-	{% include "furart/index_footer.html" %}
-</body>
+      {% include "furart/index_footer.html" %}
+  </body>
 
 </html>
-
-		
