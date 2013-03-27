@@ -7,7 +7,7 @@ class User(models.Model):
 
 
 class Activity(models.Model):
-    
+    poster = models.ForeignKey(User)
     title = models.CharField(max_length=200)
     activitytype = models.CharField(max_length=30)
     organizor = models.CharField(max_length=30)
@@ -15,3 +15,5 @@ class Activity(models.Model):
     #picture = models.FileField(upload_to="/static")
     detail = models.CharField(max_length=500)
     time = models.DateTimeField(auto_now_add=True)
+
+    
