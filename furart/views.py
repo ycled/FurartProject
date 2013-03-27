@@ -53,8 +53,6 @@ def event_search(request, type):
     return render_to_response('furart/event_search.html',{'activitys': activitys})
 
     
-    
-    
 
 # edit a exited activity
 def activity_edit(request, activity_id): 

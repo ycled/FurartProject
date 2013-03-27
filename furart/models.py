@@ -2,12 +2,12 @@ from django.db import models
 
 class User(models.Model):
     username = models.CharField(max_length=20)
-    password = models.CharField(max_length=50)
     email = models.EmailField(max_length=75)
-
+    password = models.CharField(max_length=50)
 
 
 class Activity(models.Model):
+    
     title = models.CharField(max_length=200)
     activitytype = models.CharField(max_length=30)
     organizor = models.CharField(max_length=30)

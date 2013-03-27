@@ -5,19 +5,19 @@ from furart import views
 urlpatterns = patterns('',
     # root
     url(r'^$', views.index, name='index'),
-    
+
     # user management
     url(r'^signin', views.signin, name='signin'),
     url(r'^signup', views.signup, name='signup'),
-    url(r'^logout', views.logout, name='logout'),    
-    
+    url(r'^logout', views.logout, name='logout'),
+
     # activity
     #url(r'^activity/$', views.activity),
     
     # post new acticity
     url(r'^activity_post/$', views.activity_post),
     url(r'^activity_post_success/$', views.activity_post_success),
-    
+
     # activity detail
     # ex: /activity/1/
     url(r'^activity/(?P<activity_id>\d+)/$', views.activity_detail, name='detail'),   
