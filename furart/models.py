@@ -14,4 +14,5 @@ class Activity(models.Model):
     location = models.CharField(max_length=200)
     #picture = models.FileField(upload_to="/static")
     detail = models.CharField(max_length=500)
-    time = models.DateTimeField(auto_now_add=True)
+    #time = models.DateTimeField(auto_now_add=True)
+    time = models.DateField()

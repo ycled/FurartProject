@@ -13,9 +13,54 @@ from furart.models import User
 
 
 
+# search by type
+# nav bar
+# all type
+def event_search_all(request):
+
+    try:
+        activitys = Activity.objects.filter()       
+    except Activity.DoesNotExist:
+        activitys = None
+        ###TODO
+        print "no activity found"
+        
+        return render_to_response('furart/event_search.html',
+            {'activitys': activitys})
+    else:
+        return render_to_response('furart/event_search.html', {'error': True})
+
+
+
+# search by type
+# nav bar
+def event_search(request, type):
+    ###TODO
+    print "activity_type = " + type
+    
+    try:
+        if type == 'all' or type == '':
+            print "all"
+            activitys = Activity.objects.all()
+        else:
+            print "type!!!"
+            activitys = Activity.objects.filter(activitytype__icontains=type)       
+    except Activity.DoesNotExist:
+        print "no activity found"
+        activitys = None
+        
+        
+    return render_to_response('furart/event_search.html',{'activitys': activitys})
+
+    
+    
+    
+
 # edit a exited activity
 def activity_edit(request, activity_id): 
-    print activity_id 
+    ###TODO:
+    print "activity_edit: " + activity_id 
+    
     try:
         activity = Activity.objects.get(pk=activity_id)        
     except Activity.DoesNotExist:
@@ -31,7 +76,8 @@ def activity_edit(request, activity_id):
             organizor = form.cleaned_data['organizor'] 
             location = form.cleaned_data['location'] 
             detail = form.cleaned_data['detail']
-
+            
+          
             activity.title = title
 
             activity.save()
@@ -54,6 +100,11 @@ def activity_edit_success(request):
 
 # display activity detail
 def activity_detail(request, activity_id):
+    
+    ###TODO:
+    print "activity_detail: " + activity_id 
+    
+    
     try:
         activity = Activity.objects.get(pk=activity_id)
     except Activity.DoesNotExist:
@@ -72,13 +123,18 @@ def activity_post(request):
             organizor = form.cleaned_data['organizor']
             location = form.cleaned_data['location']
             detail = form.cleaned_data['detail']
-
+            
+            ###
+            time = form.cleaned_data['time']
+            
+            
             m = Activity(title=title,
                         activitytype=activitytype,
                         organizor=organizor,
                         location=location,
                         detail=detail,
                         # picture = null
+                        time = time,
                         ) 
             m.save() 
             # return HttpResponseRedirect('furart/message/') 
@@ -123,16 +179,16 @@ def activity_search_result(request):
 
 
 
-# search by select form
-# search event by type
-def event_search(request):
-    if 'q' in request.GET and request.GET['q']:
-        q = request.GET['q']
-        activitys = Activity.objects.filter(activitytype__icontains=q)
-        return render_to_response('furart/event_search.html',
-            {'activitys': activitys, 'query': q})
-    else:
-        return render_to_response('furart/event_search.html', {'error': True})
+# # search by select form
+# # search event by type
+# def event_search(request):
+#     if 'q' in request.GET and request.GET['q']:
+#         q = request.GET['q']
+#         activitys = Activity.objects.filter(activitytype__icontains=q)
+#         return render_to_response('furart/event_search.html',
+#             {'activitys': activitys, 'query': q})
+#     else:
+#         return render_to_response('furart/event_search.html', {'error': True})
 
 
 
