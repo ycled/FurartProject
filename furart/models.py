@@ -17,3 +17,9 @@ class Activity(models.Model):
     detail = models.CharField(max_length=500)
     #time = models.DateTimeField(auto_now_add=True)
     time = models.DateField()
+    
+    def is_today(self):
+        return self.time - timezone.now() <= datetime.timedelta(days=0)
+    
+    def is_tomorrow(self):
+        return self.time - timezone.now() <= datetime.timedelta(days=1)

@@ -31,4 +31,4 @@ class ActivityForm(forms.Form):
     location = forms.CharField(required=True)
     poster = forms.FileField(label="Select a poster for you activity",
                              help_text="max size 1M")
-    detail = forms.CharField(required=True) 
+    detail = forms.CharField(required=True)

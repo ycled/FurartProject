@@ -1,62 +1,104 @@
 from django.contrib import messages
-from django.http import HttpResponseRedirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, render_to_response
 from django.template.context import RequestContext
-
-from furart.forms import UserForm
-from furart.forms import ActivityForm
-
-from furart.models import Activity
-from furart.models import User
-
-
+from furart.forms import ActivityForm, UserForm
+from furart.models import Activity, User
+import datetime
+from datetime import timedelta
 
 
 # search by type
 # nav bar
-# all type
-def event_search_all(request):
-
-    try:
-        activitys = Activity.objects.filter()       
-    except Activity.DoesNotExist:
-        activitys = None
-        ###TODO
-        print "no activity found"
-        
-        return render_to_response('furart/event_search.html',
-            {'activitys': activitys})
+def event_search(request, activity_type, activity_time):
+    
+    
+    if activity_type == None:
+        activity_type = ''
+    if activity_time == None:
+        activity_time = ''
+    
+    # ##TODO
+    print "activity_type = " + activity_type 
+    print "activity_time = " + activity_time
+    
+    
+    if activity_time == "today":
+        deltaday = 0
+    elif activity_time == "tomorrow":
+        deltaday = 1
+    # ##TODO: week and month not correct    
+    elif activity_time == "week":
+        deltaday = 7
+    elif activity_time == "month":
+        deltaday = 30
     else:
-        return render_to_response('furart/event_search.html', {'error': True})
-
-
-
-# search by type
-# nav bar
-def event_search(request, type):
-    ###TODO
-    print "activity_type = " + type
+        deltaday = 0
     
+    # ##
+    print "AAA today= %r" % datetime.date.today()
+    print "AAA weekday= %d" % datetime.date.today().weekday()
+        
     try:
-        if type == 'all' or type == '':
-            print "all"
+        if activity_type == '' and activity_time == '':
             activitys = Activity.objects.all()
+                
         else:
-            print "type!!!"
-            activitys = Activity.objects.filter(activitytype__icontains=type)       
+            today = datetime.date.today()
+            
+            if activity_time == "today":
+                activitys = Activity.objects.filter(activitytype__icontains=activity_type, time__iexact=datetime.date.today())
+            elif activity_time == "tomorrow":
+                activitys = Activity.objects.filter(activitytype__icontains=activity_type, time__iexact=datetime.date.today() + timedelta(days=1))   
+            elif activity_time == "week":
+                end_week = today - timedelta(today.weekday()) + timedelta(7)
+                print "AAA end_week= %r" % end_week
+                activitys = Activity.objects.filter(activitytype__icontains=activity_type, time__range=[today, end_week])
+            elif activity_time == "month":
+                activitys = Activity.objects.filter(activitytype__icontains=activity_type, time__month=today.month)
+            else:
+                activitys = Activity.objects.filter(activitytype__icontains=activity_type)
+                   
     except Activity.DoesNotExist:
         print "no activity found"
         activitys = None
         
         
-    return render_to_response('furart/event_search.html',{'activitys': activitys})
+    return render_to_response('furart/event_search.html', {'activitys': activitys, 'activity_type': activity_type})
 
-    
+
+
+
+
+
+# # search event
+# def event_search(request, activity_type, activity_time):
+#     ###TODO
+#     print "activity_type = " + activity_type 
+#     
+#     
+#     if activity_type == '':
+#         search = 'all'
+#     
+#     try:
+#         if activity_type == 'all':
+#             print "all"
+#             activitys = Activity.objects.all()
+#         else:
+#             print "type!!!"
+#             activitys = Activity.objects.filter(activitytype__icontains=activity_type)       
+#     except Activity.DoesNotExist:
+#         print "no activity found"
+#         activitys = None
+#         
+#         
+#     return render_to_response('furart/event_search.html',{'activitys': activitys, 'activity_type': activity_type})
+# 
+#     
 
 # edit a exited activity
 def activity_edit(request, activity_id): 
-    ###TODO:
+    # ##TODO:
     print "activity_edit: " + activity_id 
     
     try:
@@ -66,7 +108,7 @@ def activity_edit(request, activity_id):
         print "activity not found"
     
     if request.method == 'POST': 
-        #form = ActivityForm(request.POST, request.FILES, activity=activity)     
+        # form = ActivityForm(request.POST, request.FILES, activity=activity)     
         form = ActivityForm(request.POST, request.FILES)
         if form.is_valid(): 
             title = form.cleaned_data['title'] 
@@ -82,7 +124,7 @@ def activity_edit(request, activity_id):
             return HttpResponseRedirect('/furart/activity_edit_success/') 
     else: 
         form = ActivityForm(initial={'title': activity.title,
-                                     'time': activity.time,})
+                                     'time': activity.time, })
         
                    
     return render_to_response('furart/edit.html',
@@ -99,7 +141,7 @@ def activity_edit_success(request):
 # display activity detail
 def activity_detail(request, activity_id):
     
-    ###TODO:
+    # ##TODO:
     print "activity_detail: " + activity_id 
     
     
@@ -122,6 +164,7 @@ def activity_post(request):
             organizor = form.cleaned_data['organizor']
             location = form.cleaned_data['location']
             detail = form.cleaned_data['detail']
+            time = form.cleaned_data['time']
 
             m = Activity(uploader=uploader,
                          title=title,
@@ -129,7 +172,9 @@ def activity_post(request):
                          organizor=organizor,
                          location=location,
                          detail=detail,
-                         poster=request.FILES['poster']
+                         poster=request.FILES['poster'],
+                         # ##
+                         time=time,
                          )
             m.save() 
             # return HttpResponseRedirect('furart/message/') 
@@ -196,7 +241,7 @@ def activity(request):
 # user management
 #-------------------------------------------------------------
 def index(request):
-    if request.session.get('username', False):   # if the user has already logged in
+    if request.session.get('username', False):  # if the user has already logged in
         username = request.session['username']
         return render_to_response('furart/index.html',
                                   {"username": username},
@@ -224,13 +269,13 @@ def signup(request):
             password = form.cleaned_data['password']
             confirm_password = form.cleaned_data['confirm_password']
 
-            user = User(username = username,
-                        password = password,
-                        email = email)
+            user = User(username=username,
+                        password=password,
+                        email=email)
             user.save()
             request.session['username'] = username
             return HttpResponseRedirect('/furart/')
-    else: # if the request is GET, output a new form
+    else:  # if the request is GET, output a new form
         form = UserForm()
 
     return render_to_response('furart/signup.html',
