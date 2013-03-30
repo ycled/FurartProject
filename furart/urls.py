@@ -33,5 +33,4 @@ urlpatterns = patterns('',
     #url(r'^events/$', views.event_search_all, name='search_all'),  
     # ex: /events/Type1/
     url(r'^events/(?P<type>\w+)/$', views.event_search, name='search'),
-    
 )

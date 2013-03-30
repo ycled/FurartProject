@@ -13,7 +13,7 @@ class Activity(models.Model):
     activitytype = models.CharField(max_length=30)
     organizor = models.CharField(max_length=30)
     location = models.CharField(max_length=200)
-    poster = models.FileField(upload_to='documents')
+    poster = models.FileField(upload_to='posters/%Y/%m/%d')
     detail = models.CharField(max_length=500)
     #time = models.DateTimeField(auto_now_add=True)
     time = models.DateField()
