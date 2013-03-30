@@ -12,7 +12,7 @@ from datetime import timedelta
 #    
 #    Event
 #
-###
+#################################
 
 
 # post a new event
@@ -45,7 +45,6 @@ def activity_post(request):
                          end_time = end_time,
                          )
             m.save() 
-            # return HttpResponseRedirect('furart/message/') 
             return HttpResponseRedirect('/furart/activity_post_success/') 
     else: 
         form = ActivityForm()
