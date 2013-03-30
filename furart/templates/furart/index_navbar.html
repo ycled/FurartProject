@@ -29,7 +29,7 @@
             </ul>
 	    {% if username %}
 	    <div style="float: right">
-	      <a class="brand">{{ username }}</a>
+	      <a href="{% url 'profile' %}" class="brand">{{ username }}</a>
 	      <a href="{% url 'logout' %}" class="btn">Log out</a> <!-- enter signup page -->
 	    </div>
 	    {% else %}

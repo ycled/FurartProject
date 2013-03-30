@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, render_to_response
 from django.template.context import RequestContext
-from furart.forms import ActivityForm, UserForm, SigninForm, SignupForm
+from furart.forms import ActivityForm, SigninForm, SignupForm
 from furart.models import Activity, User
 import datetime
 from datetime import timedelta
@@ -60,7 +60,13 @@ def activity_post(request):
 
 # post new activity successfully
 def activity_post_success(request):
-    return render(request, 'furart/activity_post_success.html');
+    try:
+        activity = Activity.objects.get(uploader="123")
+    except Activity.DoesNotExist:
+        raise Http404
+    
+    return render_to_response('furart/activity_post_success.html', {'activity' : activity},
+                              context_instance=RequestContext(request))
 
 
 
@@ -277,3 +283,11 @@ def signup(request):
 def logout(request):
     del request.session['username']
     return HttpResponseRedirect('/furart/')
+
+
+def profile(request):
+    username = request.session.get('username')
+    user = User.objects.get(username=username)
+    return render_to_response('furart/profile.html',
+                              {"user": user},
+                              context_instance=RequestContext(request))
