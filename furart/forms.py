@@ -19,16 +19,32 @@ class UserForm(forms.Form):
         
 
     
+    
+    
+########################################################################    
+
+# post new activity
 ACTIVIRY_TYPE_CHOICES =  (('Type1', 'Type1'),('Type2', 'Type2'),('Type3', 'Type3'))
-# post new activity 
+ACTIVIRY_TIME_CHOICES =  (('00:00', '00:00'),('01:00', '01:00'),('02:00', '02:00'))
+ 
 class ActivityForm(forms.Form):
+    
     activitytype = forms.ChoiceField(widget=forms.Select,
                                      choices = ACTIVIRY_TYPE_CHOICES,label='Type') 
     title = forms.CharField(required=True)     
-    time = forms.DateField(required=True,
+    
+    # date and time
+    start_date = forms.DateField(required=True,
                            widget=forms.DateInput(attrs={'format':'%m/%d/%Y'})) 
-    organizor = forms.CharField(required=True) 
+    start_time = forms.ChoiceField(widget=forms.Select,
+                                     choices = ACTIVIRY_TIME_CHOICES,label='Start Time') 
+    end_date = forms.DateField(required=True,
+                           widget=forms.DateInput(attrs={'format':'%m/%d/%Y'})) 
+    end_time = forms.ChoiceField(widget=forms.Select,
+                                     choices = ACTIVIRY_TIME_CHOICES,label='End Time') 
+    
+    organizer = forms.CharField(required=True) 
     location = forms.CharField(required=True)
     poster = forms.FileField(label="Select a poster for you activity",
                              help_text="max size 1M")
-    detail = forms.CharField(required=True)
+    detail = forms.CharField(widget=forms.Textarea)

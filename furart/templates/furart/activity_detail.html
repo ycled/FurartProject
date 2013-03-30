@@ -1,13 +1,35 @@
-Detail
-
-<h1>{{ activity.id }}</h1>
-<ul>
-	<li>{{ activity.title }}</li>
-	<li>{{ activity.activitytype }}</li>
-	<li>{{ activity.location }}</li>
-	<li>{{ activity.time }}</li>
-
-</ul>
+<!DOCTYPE html>
+<html lang="en">
+{% include "furart/index_header.html" %}
+<body>
+	{% include "furart/index_navbar.html" %}
 
 
-<p><a href="/furart/activity/{{ activity.id }}/edit/">Edit : {{ activity.title }}</a></p>
+
+	<div class="container">
+
+		<section>
+			<div>
+				<h2>{{ activity.title }}</h2>
+
+				<p>Time: {{ activity.time }}</p>
+				<p>Address: {{ activity.location }}</p>
+				<p>Type: {{ activity.activitytype }}</p>
+				<p>organizer: {{ activity.organizer }}</p>
+
+			</div>
+			<div>
+				<p>
+					<a href="/furart/activity/{{ activity.id }}/edit/">Edit : {{
+						activity.title }}</a>
+				</p>
+			</div>
+
+		</section>
+
+	</div>
+
+
+	{% include "furart/index_footer.html" %}
+</body>
+</html>
