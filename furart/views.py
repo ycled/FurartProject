@@ -179,7 +179,13 @@ def activity_post(request):
 
 # post new event successfully
 def activity_post_success(request):
-    return render(request, 'furart/activity_post_success.html');
+    try:
+        activity = Activity.objects.get(uploader="123")
+    except Activity.DoesNotExist:
+        raise Http404
+    
+    return render_to_response('furart/activity_post_success.html', {'activity' : activity},
+                              context_instance=RequestContext(request))
 
 
 
@@ -337,3 +343,11 @@ def signup(request):
 def logout(request):
     del request.session['username']
     return HttpResponseRedirect('/furart/')
+
+
+def profile(request):
+    username = request.session.get('username')
+    user = User.objects.get(username=username)
+    return render_to_response('furart/profile.html',
+                              {"user": user},
+                              context_instance=RequestContext(request))

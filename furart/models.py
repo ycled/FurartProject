@@ -9,7 +9,6 @@ class User(models.Model):
 
 class Activity(models.Model):
     uploader = models.CharField(max_length=200)
-    
     title = models.CharField(max_length=200)
     activitytype = models.CharField(max_length=30)
     organizer = models.CharField(max_length=30)

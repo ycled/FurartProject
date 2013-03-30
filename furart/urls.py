@@ -1,7 +1,6 @@
 from django.conf.urls import patterns, url
 from furart import views
 
-
 urlpatterns = patterns('',
     # root
     url(r'^$', views.index, name='index'),
@@ -25,16 +24,15 @@ urlpatterns = patterns('',
     url(r'^activity/(?P<activity_id>\d+)/edit/$', views.activity_edit, name='edit'),
     url(r'^activity_edit_success/$', views.activity_edit_success),   
     
-    
+    url(r'^profile/$', views.profile, name='profile'),
     
     # search activity
     #url(r'^activity_search/$', views.activity_search),
     #url(r'^activity_search_result/$', views.activity_search_result),
+
     
     
     # search event
-    # ex: /events/timerange-type
     url(r'^events/(?P<timerange>\w+)-(?P<activity_type>\w+)-(?P<location>\w+)/$', views.event_search, name='search'),
-    #url(r'^events/((?P<activity_type>\w+)/)?((?P<activity_time>\w+)/)?$', views.event_search, name='search'),
 
 )
