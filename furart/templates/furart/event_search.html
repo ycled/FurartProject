@@ -9,31 +9,22 @@
 	<div class="container-fluid">
 		<div class="row-fluid">
 
-			<div class="span3">
+			<div class="span2">
 				<div class="well sidebar-nav">
 					<ul class="nav nav-list">
 						<li class="nav-header">Type</li>
-						<li class="active"><a href="/furart/events/all/">
-								All-Type</a></li>
-						<li><a href="/furart/events/Type1/">Type1</a></li>
-						<li><a href="/furart/events/Type2/">Type2</a></li>
-						<li><a href="/furart/events/Type2/">Type3</a></li>
-						<li class="nav-header">Sidebar</li>
-						<li><a
-							href="http://twitter.github.com/bootstrap/examples/fluid.html#">Link</a></li>
-						<li><a
-							href="http://twitter.github.com/bootstrap/examples/fluid.html#">Link</a></li>
-
-
+						<li class="active"><a
+							href="/furart/events/{{ timerange }}-all-all/">All Type</a></li>
+						<li><a href="/furart/events/{{ timerange }}-Type1-all/">Type1</a></li>
+						<li><a href="/furart/events/{{ timerange }}-Type2-all/">Type2</a></li>
+						<li><a href="/furart/events/{{ timerange }}-Type2-all/">Type3</a></li>
 					</ul>
 				</div>
-				<!--/.well -->
 			</div>
 			<!--/span-->
 
 
 			<div class="span9">
-
 				{% if errors %}
 				<ul>
 					{% for error in errors %}
@@ -45,17 +36,19 @@
 					<select name="SelectURL"
 						onChange="document.location.href=
 document.nav.SelectURL.options[document.nav.SelectURL.selectedIndex].value">
-						<option value="/furart/events/{{ activity_type }}/">All</option>
-						<option value="/furart/events/{{ activity_type }}/today/">Today</option>
-						<option value="/furart/events/{{ activity_type }}/tomorrow/">Tomorrow</option>
-						<option value="/furart/events/{{ activity_type }}/week/">This week</option>
-						<option value="/furart/events/{{ activity_type }}/month/">This month</option>
+						<option value="/furart/events/all-{{ activity_type }}-all}/">All</option>
+						<option value="/furart/events/today-{{ activity_type }}-all/">Today</option>
+						<option value="/furart/events/tomorrow-{{ activity_type }}-all/">Tomorrow</option>
+						<option value="/furart/events/week-{{ activity_type }}-all/">This
+							week</option>
+						<option value="/furart/events/month-{{ activity_type }}-all/">This
+							month</option>
 					</select>
 				</form>
-				
-				
-				
-				
+
+
+
+
 				<p>
 					You searched for: <strong>{{ activity_type }}</strong>
 				</p>
@@ -78,51 +71,3 @@ document.nav.SelectURL.options[document.nav.SelectURL.selectedIndex].value">
 	{% include "furart/index_footer.html" %}
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-<!-- 
-<title>Search</title>
-</head>
-<body>
-	{% if errors %}
-	<ul>
-		{% for error in errors %}
-		<li>{{ error }}</li> {% endfor %}
-	</ul>
-	{% endif %}
-
-
-	<form action="" method="get">
-		<select name="q">
-			<option value="A" >A</option>
-			<option value="B" >B</option>
-		</select> 
-		
-		<input type="submit" value="Search">
-	</form>
-
-
-
-	<p>
-		You searched for: <strong>{{ query }}</strong>
-	</p>
-
-	{% if activitys %}
-	<p>Found {{ activitys|length }} activity{{ activitys|pluralize }}.</p>
-	<ul>
-		{% for activity in activitys %}
-		<li>{{ activity.title }} {{ activity.location }}</li> {% endfor %}
-	</ul>
-	{% else %}
-	<p>No activitys matched your search criteria.</p>
-	{% endif %}
-
-</body>
-</html> -->

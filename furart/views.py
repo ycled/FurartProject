@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, render_to_response
 from django.template.context import RequestContext
-from furart.forms import ActivityForm, UserForm, SigninForm, SignupForm
+from furart.forms import ActivityForm, SigninForm, SignupForm
 from furart.models import Activity, User
 import datetime
 from datetime import timedelta
@@ -13,6 +13,126 @@ from datetime import timedelta
 #    Event
 #
 #################################
+
+
+
+
+# search event
+# by time range, location, type
+def event_search(request, timerange, activity_type, location):
+    
+    if timerange == None:
+        timerange = "all"
+    if activity_type == None:
+        activity_type = "all"
+    if location == None:
+        location = "all"
+    
+    ##TODO
+    print "timerange = " + timerange
+    print "activityt_ype = " + activity_type
+    print "location = " + location 
+  
+    
+    ###TODO
+    print "AAA today= %r" % datetime.date.today()
+    print "AAA weekday= %d" % datetime.date.today().weekday()
+    
+    
+        
+    try:
+        if activity_type == "all" and timerange == "all":
+            activitys = Activity.objects.all()
+                
+        else:
+            today = datetime.date.today()
+            
+            type = activity_type
+            if type == "all":
+                type = ""
+                      
+            if timerange == "today":
+                activitys = Activity.objects. filter(activitytype__icontains=type, start_date__iexact=today)
+            elif timerange == "tomorrow":
+                activitys = Activity.objects.filter(activitytype__icontains=type, start_date__iexact=today + timedelta(days=1))   
+            elif timerange == "week":
+                end_week = today - timedelta(today.weekday()) + timedelta(7)
+                activitys = Activity.objects.filter(activitytype__icontains=type, start_date__range=[today, end_week])
+            elif timerange == "month":
+                activitys = Activity.objects.filter(activitytype__icontains=type, start_date__month=today.month)
+            else:
+                activitys = Activity.objects.filter(activitytype__icontains=type)
+                   
+    except Activity.DoesNotExist:
+        print "no activity found"
+        activitys = None
+        
+        
+    return render_to_response('furart/event_search.html', 
+        {'activitys': activitys, 
+         'activity_type': activity_type, 
+         'timerange': timerange})
+
+
+
+
+
+# def event_search(request, activity_type, activity_time):
+#     
+#     if activity_type == None:
+#         activity_type = ''
+#     if activity_time == None:
+#         activity_time = ''
+#     
+#     # ##TODO
+#     print "activity_type = " + activity_type 
+#     print "activity_time = " + activity_time
+#     
+#     
+#     if activity_time == "today":
+#         deltaday = 0
+#     elif activity_time == "tomorrow":
+#         deltaday = 1
+#     # ##TODO: week and month not correct    
+#     elif activity_time == "week":
+#         deltaday = 7
+#     elif activity_time == "month":
+#         deltaday = 30
+#     else:
+#         deltaday = 0
+#     
+#     # ##
+#     print "AAA today= %r" % datetime.date.today()
+#     print "AAA weekday= %d" % datetime.date.today().weekday()
+#         
+#     try:
+#         if activity_type == '' and activity_time == '':
+#             activitys = Activity.objects.all()
+#                 
+#         else:
+#             today = datetime.date.today()
+#             
+#             if activity_time == "today":
+#                 activitys = Activity.objects.filter(activitytype__icontains=activity_type, time__iexact=datetime.date.today())
+#             elif activity_time == "tomorrow":
+#                 activitys = Activity.objects.filter(activitytype__icontains=activity_type, time__iexact=datetime.date.today() + timedelta(days=1))   
+#             elif activity_time == "week":
+#                 end_week = today - timedelta(today.weekday()) + timedelta(7)
+#                 print "AAA end_week= %r" % end_week
+#                 activitys = Activity.objects.filter(activitytype__icontains=activity_type, time__range=[today, end_week])
+#             elif activity_time == "month":
+#                 activitys = Activity.objects.filter(activitytype__icontains=activity_type, time__month=today.month)
+#             else:
+#                 activitys = Activity.objects.filter(activitytype__icontains=activity_type)
+#                    
+#     except Activity.DoesNotExist:
+#         print "no activity found"
+#         activitys = None
+#         
+#         
+#     return render_to_response('furart/event_search.html', {'activitys': activitys, 'activity_type': activity_type})
+
+
 
 
 # post a new event
@@ -57,14 +177,14 @@ def activity_post(request):
 
 
 
-# post new activity successfully
+# post new event successfully
 def activity_post_success(request):
     return render(request, 'furart/activity_post_success.html');
 
 
 
 
-# display activity detail
+# Event detail play
 def activity_detail(request, activity_id):
     
     # ##TODO:
@@ -77,65 +197,6 @@ def activity_detail(request, activity_id):
         raise Http404
     return render(request, 'furart/activity_detail.html', {'activity': activity})
 
-
-
-# search by type
-# nav bar
-def event_search(request, activity_type, activity_time):
-    
-    
-    if activity_type == None:
-        activity_type = ''
-    if activity_time == None:
-        activity_time = ''
-    
-    # ##TODO
-    print "activity_type = " + activity_type 
-    print "activity_time = " + activity_time
-    
-    
-    if activity_time == "today":
-        deltaday = 0
-    elif activity_time == "tomorrow":
-        deltaday = 1
-    # ##TODO: week and month not correct    
-    elif activity_time == "week":
-        deltaday = 7
-    elif activity_time == "month":
-        deltaday = 30
-    else:
-        deltaday = 0
-    
-    # ##
-    print "AAA today= %r" % datetime.date.today()
-    print "AAA weekday= %d" % datetime.date.today().weekday()
-        
-    try:
-        if activity_type == '' and activity_time == '':
-            activitys = Activity.objects.all()
-                
-        else:
-            today = datetime.date.today()
-            
-            if activity_time == "today":
-                activitys = Activity.objects.filter(activitytype__icontains=activity_type, time__iexact=datetime.date.today())
-            elif activity_time == "tomorrow":
-                activitys = Activity.objects.filter(activitytype__icontains=activity_type, time__iexact=datetime.date.today() + timedelta(days=1))   
-            elif activity_time == "week":
-                end_week = today - timedelta(today.weekday()) + timedelta(7)
-                print "AAA end_week= %r" % end_week
-                activitys = Activity.objects.filter(activitytype__icontains=activity_type, time__range=[today, end_week])
-            elif activity_time == "month":
-                activitys = Activity.objects.filter(activitytype__icontains=activity_type, time__month=today.month)
-            else:
-                activitys = Activity.objects.filter(activitytype__icontains=activity_type)
-                   
-    except Activity.DoesNotExist:
-        print "no activity found"
-        activitys = None
-        
-        
-    return render_to_response('furart/event_search.html', {'activitys': activitys, 'activity_type': activity_type})
 
 
 

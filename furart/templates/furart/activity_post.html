@@ -6,7 +6,7 @@
 
 
 
-	<!-- <div class="container">
+	<div class="container">
 		<div class="row">
 			<div class="span4">
 				<h2>Post New Event</h2>
@@ -20,33 +20,13 @@
 				</form>
 			</div>
 		</div>
-	</div> -->
-
-	<div class="container">
-		<form action="." method="POST" enctype="multipart/form-data">
-			{% csrf_token %}
-			<div class="fieldWrapper">
-				{{ form.subject.errors }} <label for="id_subject">Email
-					subject:</label> {{ form.subject }}
-			</div>
-			<div class="fieldWrapper">
-				{{ form.message.errors }} <label for="id_message">Your
-					message:</label> {{ form.message }}
-			</div>
-			<div class="fieldWrapper">
-				{{ form.sender.errors }} <label for="id_sender">Your email
-					address:</label> {{ form.sender }}
-			</div>
-			<div class="fieldWrapper">
-				{{ form.cc_myself.errors }} <label for="id_cc_myself">CC
-					yourself?</label> {{ form.cc_myself }}
-			</div>
-			<p>
-				<input type="submit" value="Send message" />
-			</p>
-		</form>
 	</div>
+
+	
+
+
+
+
 	{% include "furart/index_footer.html" %}
 </body>
-
 </html>

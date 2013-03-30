@@ -30,14 +30,11 @@ urlpatterns = patterns('',
     # search activity
     #url(r'^activity_search/$', views.activity_search),
     #url(r'^activity_search_result/$', views.activity_search_result),
-<<<<<<< HEAD
-    #url(r'^events/$', views.event_search_all, name='search_all'),  
-    # ex: /events/Type1/
-    url(r'^events/(?P<type>\w+)/$', views.event_search, name='search'),
-=======
     
-    # ex: /events/Type1/time/location
-    #url(r'^events/(?P<activity_type>\w+)/$', views.event_search, name='search'),
-    url(r'^events/((?P<activity_type>\w+)/)?((?P<activity_time>\w+)/)?$', views.event_search, name='search'),
->>>>>>> 2e7bef248b83b1e61bd98912717f4498e4f8e5c7
+    
+    # search event
+    # ex: /events/timerange-type
+    url(r'^events/(?P<timerange>\w+)-(?P<activity_type>\w+)-(?P<location>\w+)/$', views.event_search, name='search'),
+    #url(r'^events/((?P<activity_type>\w+)/)?((?P<activity_time>\w+)/)?$', views.event_search, name='search'),
+
 )
