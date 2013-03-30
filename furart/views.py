@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, render_to_response
 from django.template.context import RequestContext
-from furart.forms import ActivityForm, UserForm
+from furart.forms import ActivityForm, UserForm, SigninForm, SignupForm
 from furart.models import Activity, User
 import datetime
 from datetime import timedelta
@@ -205,8 +205,6 @@ def activity_search_result(request):
 
 
 
-
-
 # # search by select form
 # # search event by type
 # def event_search(request):
@@ -234,28 +232,33 @@ def index(request):
         return render_to_response('furart/index.html',
                                   {"username": username},
                                   context_instance=RequestContext(request))
-    else:
-        return render_to_response('furart/index.html')
+    else:  # render index page with login form
+        return render_to_response('furart/index.html',
+                                  context_instance=RequestContext(request))
 
 
 def signin(request):
-    return render(request, 'furart/signup.html');
+    if request.method == "POST":
+        form = SigninForm(request.POST)
+        if form.is_valid():
+            username = request.POST['username']
+            request.session['username'] = username
+            return HttpResponseRedirect('/furart/')
+    else:
+        form = SigninForm()
 
-
-def logout(request):
-    del request.session['username']
-    return HttpResponseRedirect('/furart/')
+    return render_to_response('furart/signin.html',
+                              {"form" : form},
+                              context_instance=RequestContext(request))
 
 
 def signup(request):
     if request.method == 'POST':  # signup a new user
-        form = UserForm(request.POST)
+        form = SignupForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data['username']
             email = form.cleaned_data['email']
-
             password = form.cleaned_data['password']
-            confirm_password = form.cleaned_data['confirm_password']
 
             user = User(username=username,
                         password=password,
@@ -263,9 +266,13 @@ def signup(request):
             user.save()
             request.session['username'] = username
             return HttpResponseRedirect('/furart/')
-    else:  # if the request is GET, output a new form
-        form = UserForm()
+    else: # if the request is GET, output a new form
+        form = SignupForm()
 
     return render_to_response('furart/signup.html',
                               {'form': form},
                               context_instance=RequestContext(request))
+
+def logout(request):
+    del request.session['username']
+    return HttpResponseRedirect('/furart/')

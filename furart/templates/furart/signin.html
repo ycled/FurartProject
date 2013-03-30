@@ -9,9 +9,9 @@
     
     <div class="container">
 
-      <form action="{% url 'signup' %}" method="POST" class="form-signin">
+      <form action="{% url 'signin' %}" method="POST" class="form-signin">
 	{% csrf_token %}
-        <h2 class="form-signin-heading">Please sign up</h2>	
+        <h2 class="form-signin-heading">Please sign in</h2>	
 	<!-- {{ form.as_table }} -->
 
 	{{ form.non_field_errors }}
@@ -21,19 +21,9 @@
           {{ form.username }}
 	</div>
 	<div class="input-block-level">
-          {{ form.email.errors }}
-          <label>Email:</label>	  
-          {{ form.email }}
-	</div>
-	<div class="input-block-level">
           {{ form.password.errors }}
           <label>Password:</label>
           {{ form.password }}
-	</div>
-	<div class="input-block-level">
-          {{ form.confirm_password.errors }}
-          <label>Confirm Password:</label>	  
-          {{ form.confirm_password }}
 	</div>
 	<!-- <input type="text" class="input-block-level" placeholder="User name" name="username"> -->
         <!-- <input type="text" class="input-block-level" placeholder="Email address" name="email"> -->
@@ -41,7 +31,7 @@
         <label class="checkbox">
           <input type="checkbox" value="remember-me"> Remember me
         </label>
-        <button class="btn btn-large btn-primary" type="submit">Sign up</button>
+        <button class="btn btn-large btn-primary" type="submit">Sign in</button>
       </form>
 
     </div> <!-- /container -->
